@@ -1,0 +1,39 @@
+{
+  "readmeUrl": "",
+  "title": "Portfolio",
+  "name": "Jugnu Misal",
+  "ascii": "jugnumisal",
+  "social": {
+    "github": "jugnumisal",
+    "linkedin": "jugnumisal"
+  },
+  "email": "jugnumisal@gmail.com",
+  "ps1_hostname": "misal",
+  "ps1_username": "user",
+  "repo": "",
+  "resume_url": "https://drive.google.com/file/d/1ZLwgnt23yQ9YyxVZuqDJj2-80abboPK7/view?usp=drive_link",
+  "donate_urls": {
+    "paypal": "https://paypal.me/jugnumisal?country.x=US&locale.x=en_US",
+    "venmo": "https://www.venmo.com/u/jugnumisal"
+  },
+  "colors": {
+    "light": {
+      "background": "#FFFFFF",
+      "foreground": "#373B41",
+      "yellow": "#FBA922",
+      "green": "#198844",
+      "gray": "#B4B7B4",
+      "blue": "#3971ED",
+      "red": "#CC342B"
+    },
+    "dark": {
+      "background": "#2E3440",
+      "foreground": "#E5E9F0",
+      "yellow": "#FBA922",
+      "green": "#198844",
+      "gray": "#B4B7B4",
+      "blue": "#3971ED",
+      "red": "#CC342B"
+    }
+  }
+}
