@@ -150,14 +150,21 @@ export const sudo = async (args?: string[]): Promise<string> => {
 // Banner
 export const banner = (args?: string[]): string => {
   return `
-     ██╗██╗   ██╗ ██████╗ ███╗   ██╗██╗   ██╗    ███╗   ███╗██╗███████╗ █████╗ ██╗     
-     ██║██║   ██║██╔════╝ ████╗  ██║██║   ██║    ████╗ ████║██║██╔════╝██╔══██╗██║     
-     ██║██║   ██║██║  ███╗██╔██╗ ██║██║   ██║    ██╔████╔██║██║███████╗███████║██║     
-██   ██║██║   ██║██║   ██║██║╚██╗██║██║   ██║    ██║╚██╔╝██║██║╚════██║██╔══██║██║     
-╚█████╔╝╚██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝    ██║ ╚═╝ ██║██║███████║██║  ██║███████╗
- ╚════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝     ╚═╝     ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+  
+                 _____                                                                                         _____ 
+                ( ___ )---------------------------------------------------------------------------------------( ___ )
+                 |   |                                                                                         |   | 
+                 |   |      ██╗██╗   ██╗ ██████╗ ███╗   ██╗██╗   ██╗    ███╗   ███╗██╗███████╗ █████╗ ██╗      |   | 
+                 |   |      ██║██║   ██║██╔════╝ ████╗  ██║██║   ██║    ████╗ ████║██║██╔════╝██╔══██╗██║      |   | 
+                 |   |      ██║██║   ██║██║  ███╗██╔██╗ ██║██║   ██║    ██╔████╔██║██║███████╗███████║██║      |   | 
+                 |   | ██   ██║██║   ██║██║   ██║██║╚██╗██║██║   ██║    ██║╚██╔╝██║██║╚════██║██╔══██║██║      |   | 
+                 |   | ╚█████╔╝╚██████╔╝╚██████╔╝██║ ╚████║╚██████╔╝    ██║ ╚═╝ ██║██║███████║██║  ██║███████╗ |   | 
+                 |   |  ╚════╝  ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝     ╚═╝     ╚═╝╚═╝╚══════╝╚═╝  ╚═╝╚══════╝ |   | 
+                 |___|                                                                                         |___| 
+                (_____)---------------------------------------------------------------------------------------(_____)
 
-Hey, I’m ${config.name}, your friendly neighborhood Systems Engineer.
+
+Hello, I’m ${config.name}, your friendly neighborhood Systems Engineer.
 I specialize in turning tech headaches into smooth operations with a mix of automation and some strategic coding wizardry. My goal? To make sure your systems are running so well, you forget they're even there. Whether I’m wrangling servers or optimizing processes, I’m here to keep the digital gears turning—so you never have to wonder why things “just work.”
 
 Oh, and if you’re just here to grab my resume but have no clue about Linux or terminals—don’t worry! Type 'resume', and you’ll be whisked right to it. Want more links or to connect? Just type 'sumfetch' and let's connect!
