@@ -1,45 +1,29 @@
 # Welcome to my Portfolio Website
 
-To access the portfolio, click [here](https://jugnumisal.vercel.app/)
+*Visit [www.jugnumisal.com](https://www.jugnumisal.com) to checkout my website.*
 
-Highly customizable, easy-to-use, and minimal terminal styled website template, powered by Next.js.
+## Description:
+This website template is highly customizable, easy-to-use, powered by Next.js.
 
-Building a simple website with LiveTerm only takes **minutes**, and you only need to work with **one** file: `config.json`. After you cloned this repository, simply run `yarn install && yarn dev` and start editing `config.json` to build your website!
+It takes minutes to create your own website using this template. You only need to work with **one** file: `config.json`. After you clone this repository, simply run `yarn install && yarn dev` and start editing `config.json` to build your website!
 
-## 🚀 Ship your portfolio site in less than 5 minutes
+## Steps:
 
-This website requires the `yarn` package manager. You can install `yarn` [here](https://classic.yarnpkg.com/lang/en/docs/install/).
-
-Simply run the following commmand in your terminal:
+1. Clone this repository
 
 ```bash
 git clone https://github.com/jugnumisal/portfolio.linux.git && cd portfolio.linux
 ```
 
-Then install dependencies and start developing there:
+2. Install dependencies and start developing there:
 
 ```bash
 yarn install && yarn dev
 ```
 
-Start editing `config.json` and try saving and see the updated changes!
+3. Start editing `config.json` and try saving and see the updated changes!
 
-### Docker Usage
-
-First, clone the project and edit `config.json` to your liking. Then run the following to start the container in the background:
-
-```shell
-docker-compose up -d
-```
-
-If you **know** what you were doing, you can also try changing `Dockerfile` & `docker-compose.yml`!
-Learn more about Docker [here](https://docs.docker.com/get-started/overview/ 'here').
-
-## 📄 Configuration
-
-### Basic Configuration
-
-90% of LiveTerm's configurations are done through the `config.json` file.
+> 90% of this website configurations are done through the `config.json` file.
 
 ```javascript
 {
@@ -67,13 +51,17 @@ Learn more about Docker [here](https://docs.docker.com/get-started/overview/ 'he
 }
 ```
 
-Feel free to change it as you see fit!
+> #### Feel free to change it as you see fit!
+
+
+## More Configurations
 
 ### Themes
 
-You can find several pre-configured themes in `themes.json`, and you can replace the colors in `config.json` with the theme color you like! The themes are based on the themes on [this website](https://glitchbone.github.io/vscode-base16-term/#/).
+You can change the themes by changing the colors in `config.json` with the theme color you like! The themes are based on the themes on [this website](https://glitchbone.github.io/vscode-base16-term/#/).
 
-For a better preview of the themes, checkout the images in the `demo` folder.
+
+![img](Preview.png)
 
 ### Favicons
 
@@ -81,9 +69,9 @@ Favicons are located in `public/`, along with the other files you may want to up
 
 ### Banner
 
-You may also want to change the output of the `banner` command. To do that, simply paste your generated banner in `src/utils/bin/commands.ts`. I used this [website](https://manytools.org/hacker-tools/ascii-banner/) to generate my banner.
+You may also want to change the output of the `banner` command. To do that, simply paste your generated banner in `src/utils/bin/commands.ts`. I used this [website](https://www.asciiart.eu/text-to-ascii-art) to generate my banner.
 
-### Advanced Configuration
+## Advanced Configuration
 
 If you want to further customize your page, feel free to change the source code to your liking!
 
@@ -97,4 +85,4 @@ You can also connect your github account to vercel and have vercel automatically
 
 ## Credit
 
-Based on M4TT72's awesome [Terminal](https://github.com/m4tt72/terminal).
+Based on Cveinnt's LiveTerm awesome [Terminal](https://github.com/Cveinnt/LiveTerm).
