@@ -107,6 +107,26 @@ export const cd = async (args: string[]): Promise<string> => {
   return `Only Parseltongue speakers may enter here.`;
 };
 
+cd.getCompletions = (partial: string): string[] => {
+  const directories = [
+          'vault_of_bad_ideas',
+          'projects_that_worked',
+          'secrets_of_the_universe',
+          'one_day_i_ll_finish_this',
+          'forbidden_forest',
+          'room_of_requirements',
+          'chamber_of_secrets',
+          'marauders_map',
+          'dumbledores_office',
+          'owlery',
+          'potions_lab',
+          'diagon_alley',
+          'hogwarts_express',
+          'quidditch_pitch'
+        ];
+  return directories.filter((dir) => dir.startsWith(partial));
+};
+
 export const date = async (args: string[]): Promise<string> => {
   return new Date().toString();
 };
