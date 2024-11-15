@@ -13,10 +13,6 @@
   "repo": "https://github.com/jugnumisal/portfolio.linux",
   "certs": "https://www.credly.com/users/jugnumisal",
   "resume_url": "https://drive.google.com/file/d/1ZLwgnt23yQ9YyxVZuqDJj2-80abboPK7/view?usp=drive_link",
-  "donate_urls": {
-    "paypal": "https://paypal.me/jugnumisal?country.x=US&locale.x=en_US",
-    "venmo": "https://www.venmo.com/u/jugnumisal"
-  },
   "colors": {
     "light": {
       "background": "#FFFFFF",
