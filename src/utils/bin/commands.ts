@@ -70,12 +70,6 @@ export const linkedin = async (args: string[]): Promise<string> => {
   return 'Opening linkedin...';
 };
 
-// Search
-// export const google = async (args: string[]): Promise<string> => {
-//   window.open(`https://google.com/search?q=${args.join(' ')}`);
-//   return `Searching google for ${args.join(' ')}...`;
-// };
-
 // Typical linux commands
 export const echo = async (args: string[]): Promise<string> => {
   return args.join(' ');
@@ -90,15 +84,27 @@ export const whoami = async (args: string[]): Promise<string> => {
 };
 
 export const ls = async (args: string[]): Promise<string> => {
-  return `a
-bunch
-of
-fake
-directories`;
+  return `vault_of_bad_ideas  
+projects_that_worked  
+one_day_i_ll_finish_this  
+secrets_of_the_universe  
+forbidden_forest  
+room_of_requirements  
+chamber_of_secrets  
+marauders_map  
+dumbledores_office  
+owlery  
+potions_lab  
+diagon_alley  
+hogwarts_express  
+quidditch_pitch`;
 };
 
 export const cd = async (args: string[]): Promise<string> => {
-  return `Unfortunately, that's all I could afford. No more directories to enter.`;
+  if (args[0] === 'secrets_of_the_universe') {
+    return `The answer is 42!`;
+  }
+  return `Only Parseltongue speakers may enter here.`;
 };
 
 export const date = async (args: string[]): Promise<string> => {
@@ -119,6 +125,10 @@ export const nvim = async (args: string[]): Promise<string> => {
 
 export const emacs = async (args?: string[]): Promise<string> => {
   return `you know what? just use vscode.`;
+};
+
+export const hostname = async (args?: string[]): Promise<string> => {
+  return `${config.ps1_hostname}`;
 };
 
 export const sudo = async (args?: string[]): Promise<string> => {
