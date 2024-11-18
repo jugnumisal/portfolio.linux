@@ -92,8 +92,7 @@ forbidden_forest
 room_of_requirements  
 chamber_of_secrets  
 marauders_map  
-dumbledores_office  
-owlery  
+dumbledores_office    
 potions_lab  
 diagon_alley  
 hogwarts_express  
@@ -118,7 +117,6 @@ cd.getCompletions = (partial: string): string[] => {
           'chamber_of_secrets',
           'marauders_map',
           'dumbledores_office',
-          'owlery',
           'potions_lab',
           'diagon_alley',
           'hogwarts_express',
