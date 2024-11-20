@@ -103,6 +103,9 @@ export const cd = async (args: string[]): Promise<string> => {
   if (args[0] === 'secrets_of_the_universe') {
     return `The answer is 42!`;
   }
+  if (args[0] === '') {
+    return `Already in /home. Try 'ls' for list of directories.`;
+  }
   return `Only Parseltongue speakers may enter here.`;
 };
 
