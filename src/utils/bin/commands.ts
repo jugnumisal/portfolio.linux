@@ -104,7 +104,7 @@ export const cd = async (args: string[]): Promise<string> => {
     return `The answer is 42!`;
   }
   if (args.length === 0 || args[0] === '') {
-    return `Already in /home. Try 'ls' for a list of directories.`;
+    return `Already in /home. Try 'ls' or 'df' for a list of directories.`;
   }
 
   const dir = args[0].replace(/^\/+/, ''); 
@@ -124,7 +124,7 @@ export const cd = async (args: string[]): Promise<string> => {
       Accessing Vibranium reserves...  
       ERROR: Vibranium detected in your browser cache. Please return it before we call T'Challa.`;
     default:
-      return `Only Parseltongue—oops, I mean Marvel-worthy individuals—may enter here.`;
+      return `No such directory. Try 'ls' or 'df' for a list of directories.`;
   }
 };
 
