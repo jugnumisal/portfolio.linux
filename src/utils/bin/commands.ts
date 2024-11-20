@@ -104,25 +104,28 @@ export const cd = async (args: string[]): Promise<string> => {
     return `The answer is 42!`;
   }
   if (args.length === 0 || args[0] === '') {
-    return `Already in /home. Try 'ls' for list of directories.`;
+    return `Already in /home. Try 'ls' for a list of directories.`;
   }
-  if (args[0] === 'arc_reactor_lab' || args[0] === '/arc_reactor_lab') {
-    return `Access denied: You are not Tony Stark. Jarvis is watching.`;
+
+  const dir = args[0].replace(/^\/+/, ''); 
+  switch (dir) {
+    case 'arc_reactor_lab':
+      return `Access denied: You are not Tony Stark. Jarvis is watching.`;
+    case 'assemble':
+      return `
+      Avengers, assemble! Wait... you're not on the team roster.  
+      Please contact Nick Fury for recruitment.`;
+    case 'snap_zone':
+      return `
+      You enter the snap zone... Half your files disappear. Hope you backed up your /soul.`;
+    case 'vibranium_reserve':
+      return `
+      Welcome to Wakanda.  
+      Accessing Vibranium reserves...  
+      ERROR: Vibranium detected in your browser cache. Please return it before we call T'Challa.`;
+    default:
+      return `Only Parseltongue—oops, I mean Marvel-worthy individuals—may enter here.`;
   }
-  if (args[0] === 'assemble' || args[0] === '/assemble') {
-    return `Avengers, assemble! Wait... you're not on the team roster.  
-Please contact Nick Fury for recruitment.`;
-  }
-  if (args[0] === 'snap_zone' || args[0] === '/snap_zone') {
-    return `You enter the snap zone... Half your files disappear. Hope you backed up your /soul.`;
-  }
-  if (args[0] === 'vibranium_reserve' || args[0] === '/vibranium_reserve') {
-    return `Welcome to Wakanda.  
-Accessing Vibranium reserves...  
-ERROR: Vibranium detected in your browser cache. Please return it before we call T'Challa.
-`;
-  }
-  return `Only Parseltongue speakers may enter here.`;
 };
 
 cd.getCompletions = (partial: string): string[] => {
@@ -139,7 +142,11 @@ cd.getCompletions = (partial: string): string[] => {
           'potions_lab',
           'diagon_alley',
           'hogwarts_express',
-          'quidditch_pitch'
+          'quidditch_pitch',
+          'arc_reactor_lab',
+          'assemble',
+          'snap_zone',
+          'vibranium_reserve',
         ];
   return directories.filter((dir) => dir.startsWith(partial));
 };
