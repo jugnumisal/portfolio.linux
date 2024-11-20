@@ -106,6 +106,22 @@ export const cd = async (args: string[]): Promise<string> => {
   if (args.length === 0 || args[0] === '') {
     return `Already in /home. Try 'ls' for list of directories.`;
   }
+  if (args[0] === 'arc_reactor_lab' || args[0] === '/arc_reactor_lab') {
+    return `Access denied: You are not Tony Stark. Jarvis is watching.`;
+  }
+  if (args[0] === 'assemble' || args[0] === '/assemble') {
+    return `Avengers, assemble! Wait... you're not on the team roster.  
+Please contact Nick Fury for recruitment.`;
+  }
+  if (args[0] === 'snap_zone' || args[0] === '/snap_zone') {
+    return `You enter the snap zone... Half your files disappear. Hope you backed up your /soul.`;
+  }
+  if (args[0] === 'vibranium_reserve' || args[0] === '/vibranium_reserve') {
+    return `Welcome to Wakanda.  
+Accessing Vibranium reserves...  
+ERROR: Vibranium detected in your browser cache. Please return it before we call T'Challa.
+`;
+  }
   return `Only Parseltongue speakers may enter here.`;
 };
 
@@ -151,6 +167,31 @@ export const emacs = async (args?: string[]): Promise<string> => {
 export const hostname = async (args?: string[]): Promise<string> => {
   return `${config.ps1_hostname}`;
 };
+
+export const lscpu = async (args?: string[]): Promise<string> => {
+  return `
+Architecture:              StarkOS v2.0  
+CPU(s):                    6 (Earth’s Mightiest Cores)  
+Model name:                Arc Reactor MK-85 Processor  
+Hyper-threading:           Enabled (Because I am *inevitable*)  
+Clock Speed:               3,000 GHz (Fueled by Vibranium)  
+Cache:                     16MB (Mostly witty comebacks)  
+Vendor ID:                 Stark Industries  
+Power Management:          Hulk SMASH Mode Available  
+Thermal Throttling:        Cooled by Stormbreaker`;
+};
+
+export const df = async (args?: string[]): Promise<string> => {
+  return `
+Filesystem               Size    Used   Avail   Use%   Mounted on  
+/home/stark_tower         42TB    41TB    1TB    98%    /arc_reactor_lab  
+/home/avengers            10TB     9TB    1TB    90%    /assemble  
+/home/infinity_stones     100GB   50GB   50GB    50%    /snap_zone  
+/home/wakanda             Infinite  ∞     0      0%     /vibranium_reserve  
+`;
+};
+
+
 
 export const sudo = async (args?: string[]): Promise<string> => {
   window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // ...I'm sorry
