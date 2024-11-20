@@ -80,11 +80,38 @@ export const pwd = async (args: string[]): Promise<string> => {
 };
 
 export const whoami = async (args: string[]): Promise<string> => {
-  return `${config.ps1_username}`;
+  const superheroes = [
+    'Iron Man',
+    'Spider-Man',
+    'Thor',
+    'Captain America',
+    'Hulk',
+    'Black Widow',
+    'Wolverine',
+    'Deadpool',
+    'Doctor Strange',
+    'Black Panther',
+    'Wonder Woman',
+    'Batman',
+    'Superman ',
+    'Aquaman',
+    'Flash',
+    'Green Lantern',
+    'Cyborg',
+    'Green Arrow',
+  ];
+
+  // Select a random superhero
+  const randomHero = superheroes[Math.floor(Math.random() * superheroes.length)];
+
+  // Return the selected superhero
+  return `
+You are: ${randomHero}!`;
 };
 
 export const ls = async (args: string[]): Promise<string> => {
-  return `vault_of_bad_ideas  
+  return `
+vault_of_bad_ideas  
 projects_that_worked  
 one_day_i_ll_finish_this  
 secrets_of_the_universe  
@@ -197,8 +224,6 @@ Filesystem               Size    Used   Avail   Use%   Mounted on
 /home/wakanda             Infinite  ∞     0      0%     /vibranium_reserve  
 `;
 };
-
-
 
 export const sudo = async (args?: string[]): Promise<string> => {
   window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank'); // ...I'm sorry
