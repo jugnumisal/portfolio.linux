@@ -140,7 +140,7 @@ export const cd = async (args: string[]): Promise<string> => {
   if (args[0] === 'one_day_i_ll_finish_this'){
     return `Oh man! Procrastination is real!`
   }
-  if (args[0] === 'forbidden_forest' || args[0] === 'room_of_requirements' || args[0] === 'chamber_of_secrets' || args[0] === 'marauders_map || args[0] === 'dumbledores_office'   || args[0] === 'potions_lab' || args[0] === 'diagon_alley' || args[0] === 'hogwarts_express' || args[0] === 'quidditch_pitch'){
+  if (args[0] === 'forbidden_forest' || args[0] === 'room_of_requirements' || args[0] === 'chamber_of_secrets' || args[0] === 'marauders_map' || args[0] === 'dumbledores_office'   || args[0] === 'potions_lab' || args[0] === 'diagon_alley' || args[0] === 'hogwarts_express' || args[0] === 'quidditch_pitch'){
     return `No muggles allowed in here! Obliviate!🪄`
   }
   if (args[0] === 'projects_that_worked'){
