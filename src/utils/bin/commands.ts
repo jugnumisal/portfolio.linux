@@ -134,6 +134,19 @@ export const cd = async (args: string[]): Promise<string> => {
     return `Already in /home. Try 'ls' or 'df' for a list of directories.`;
   }
 
+  if (args[0] === 'vault_of_bad_ideas' ){
+    return `Jar open! Worms, everywhere!🐞🐛🦟`
+  }
+  if (args[0] === 'one_day_i_ll_finish_this'){
+    return `Oh man! Procrastination is real!`
+  }
+  if (args[0] === 'forbidden_forest' || args[0] === 'room_of_requirements' || args[0] === 'chamber_of_secrets' || args[0] === 'marauders_map || args[0] ===dumbledores_office   || args[0] ===potions_lab || args[0] ===diagon_alley || args[0] ===hogwarts_express || args[0] ===quidditch_pitch'){
+    return `No muggles allowed in here! Obliviate!🪄`
+  }
+  if (args[0] === 'projects_that_worked'){
+    return `I guess I can add this project in this folder, what do you say?`
+  }
+
   const dir = args[0].replace(/^\/+/, ''); 
   switch (dir) {
     case 'arc_reactor_lab':
