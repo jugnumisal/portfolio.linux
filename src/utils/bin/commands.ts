@@ -28,10 +28,18 @@ export const repo = async (args: string[]): Promise<string> => {
   return 'Opening Github repository...';
 };
 
+// certs
 export const certs = async (args: string[]): Promise<string> => {
   window.open(`${config.certs}`);
   return 'Redirecting to Certification credentials...';
 };
+
+//research papers
+export const papers = async (args: string[]): Promise<string> => {
+  window.open(`${config.papers}`);
+  return 'Redirecting to ResearchGate profile...';
+};
+
 // About
 export const about = async (args: string[]): Promise<string> => {
   return `Hi, I am ${config.name}. I'm a Systems Engineer, aka the person who makes sure everything works smoothly while pretending not to panic when it doesn’t. My daily routine involves taming servers, automating processes, and ensuring that systems stay up even when everything else feels like it's crashing. Whether it’s fixing things no one else can figure out or convincing software to behave, I’ve got it covered (with some well-placed Python scripts and bash magic).
