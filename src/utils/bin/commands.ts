@@ -34,9 +34,9 @@ export const certs = async (args: string[]): Promise<string> => {
   return 'Redirecting to Certification credentials...';
 };
 
-//research papers
-export const papers = async (args: string[]): Promise<string> => {
-  window.open(`${config.papers}`);
+//research publications
+export const publish = async (args: string[]): Promise<string> => {
+  window.open(`${config.publications}`);
   return 'Redirecting to ResearchGate profile...';
 };
 
