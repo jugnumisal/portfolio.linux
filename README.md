@@ -58,7 +58,7 @@ yarn install && yarn dev
 
 ### Themes
 
-You can change the themes by changing the colors in `config.json` with the theme color you like! The themes are based on the themes on [this website](https://glitchbone.github.io/vscode-base16-term/#/).
+You can change the themes by changing the colors in `config.json` with the theme color you like! The themes are based on [this website](https://glitchbone.github.io/vscode-base16-term/#/).
 
 
 ![img](Preview.png)
