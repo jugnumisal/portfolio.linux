@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { commandExists } from '../utils/commandExists';
 import { shell } from '../utils/shell';
 import { handleTabCompletion } from '../utils/tabCompletion';
@@ -15,8 +15,14 @@ export const Input = ({
   setLastCommandIndex,
   clearHistory,
 }) => {
+  const localRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    localRef.current?.focus();
+  }, []);
+
   const onSubmit = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const commands: [string] = history
+    const commands: string[] = history
       .map(({ command }) => command)
       .filter((command: string) => command);
 
@@ -46,10 +52,8 @@ export const Input = ({
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
-      if (!commands.length) {
-        return;
-      }
-      const index: number = lastCommandIndex + 1;
+      if (!commands.length) return;
+      const index = lastCommandIndex + 1;
       if (index <= commands.length) {
         setLastCommandIndex(index);
         setCommand(commands[commands.length - index]);
@@ -58,10 +62,8 @@ export const Input = ({
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      if (!commands.length) {
-        return;
-      }
-      const index: number = lastCommandIndex - 1;
+      if (!commands.length) return;
+      const index = lastCommandIndex - 1;
       if (index > 0) {
         setLastCommandIndex(index);
         setCommand(commands[commands.length - index]);
@@ -72,33 +74,34 @@ export const Input = ({
     }
   };
 
-  const onChange = ({
-    target: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setCommand(value);
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCommand(e.target.value);
   };
 
   return (
-    <div className="flex flex-row space-x-2">
-      <label htmlFor="prompt" className="flex-shrink">
+    <div className="terminal-line" onClick={() => localRef.current?.focus()}>
+      <span className="prompt">
         <Ps1 />
-      </label>
+      </span>
+      <span className="typed-text">
+  {command}
+  <span className="typewriter-cursor">
+    {command === ''}
+  </span>
+</span>
 
       <input
-        ref={inputRef}
-        id="prompt"
-        type="text"
-        className={`bg-light-background dark:bg-dark-background focus:outline-none flex-grow ${
-          commandExists(command) || command === ''
-            ? 'text-dark-green'
-            : 'text-dark-red'
-        }`}
+        ref={(el) => {
+          localRef.current = el;
+          if (inputRef) inputRef.current = el;
+        }}
         value={command}
         onChange={onChange}
-        autoFocus
         onKeyDown={onSubmit}
+        className="terminal-hidden-input"
         autoComplete="off"
-        spellCheck="false"
+        autoCorrect="off"
+        spellCheck={false}
       />
     </div>
   );
