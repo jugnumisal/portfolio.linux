@@ -43,7 +43,7 @@ div#__next > div {
   display: flex;
   align-items: center;
   font-family: monospace;
-  color: #00ff00;
+  color: #198844;
   white-space: pre;
 }
 
@@ -64,7 +64,7 @@ div#__next > div {
   display: inline-block;
   width: 0.6ch;
   height: 1em;
-  background-color: limegreen;
+  background-color: #198844;
   animation: blink 1s steps(2, start) infinite;
   vertical-align: text-bottom;
 }
@@ -92,3 +92,15 @@ div#__next > div {
   left: -9999px;
 }
 
+@keyframes blink {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
