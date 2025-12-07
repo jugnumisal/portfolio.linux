@@ -1,50 +1,31 @@
 import Head from 'next/head';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import config from '../../config.json';
 import { Input } from '../components/input';
 import { useHistory } from '../components/history/hook';
 import { History } from '../components/history/History';
-import { banner } from '../utils/bin';
+import BootLoader from '../components/BootLoader';
 
-interface IndexPageProps {
-  inputRef: React.MutableRefObject<HTMLInputElement>;
-}
-
-const IndexPage: React.FC<IndexPageProps> = ({ inputRef }) => {
-  const containerRef = React.useRef(null);
+const IndexPage: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const {
-    history,
-    command,
-    lastCommandIndex,
-    setCommand,
-    setHistory,
-    clearHistory,
-    setLastCommandIndex,
+    history, command, lastCommandIndex,
+    setCommand, setHistory, clearHistory, setLastCommandIndex
   } = useHistory([]);
 
-  const init = React.useCallback(() => setHistory(banner()), []);
+  const [bootComplete, setBootComplete] = useState(false);
 
-  React.useEffect(() => {
-    init();
-  }, [init]);
-
-  React.useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.scrollIntoView();
-      inputRef.current.focus({ preventScroll: true });
-    }
-  }, [history]);
+  if (!bootComplete) {
+    return <BootLoader onComplete={() => setBootComplete(true)} />;
+  }
 
   return (
     <>
-      <Head>
-        <title>{config.title}</title>
-      </Head>
-
+      <Head><title>{config.title}</title></Head>
       <div className="p-8 overflow-hidden h-full border-2 rounded border-light-yellow dark:border-dark-yellow">
         <div ref={containerRef} className="overflow-y-auto h-full">
           <History history={history} />
-
           <Input
             inputRef={inputRef}
             containerRef={containerRef}

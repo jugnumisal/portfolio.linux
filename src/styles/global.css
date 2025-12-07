@@ -104,3 +104,41 @@ div#__next > div {
 .animate-blink {
   animation: blink 1s step-end infinite;
 }
+
+.boot-screen {
+  background: inherit; /* respect config.json theme */
+  color: inherit;
+  height: 100vh;
+  font-size: 0.9rem;
+  padding: 2rem;
+  white-space: pre-wrap;
+}
+
+.boot-screen div {
+  margin: 0.2rem 0;
+}
+
+.text-light-green {
+  color: #198844;
+}
+
+.text-dark-green {
+  color: #198844;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .animate-blink {
+    animation: blink 1s step-start infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
