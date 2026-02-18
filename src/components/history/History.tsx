@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HistoryEntry } from './types';
+import { HistoryEntry } from './interface';
 import { banner } from '../../utils/bin/commands';
 
 interface Props {
@@ -22,21 +22,19 @@ export const History: React.FC<Props> = ({ history }) => {
         clearInterval(interval);
         setBannerDone(true);
       }
-    }, 80); // control speed
+    }, 80);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="whitespace-pre-wrap font-mono">
-      {/* Typewriter Banner in foreground color */}
       {bannerLines.map((line, idx) => (
         <div key={`banner-${idx}`} className="text-light-foreground dark:text-dark-foreground">
           {line}
         </div>
       ))}
 
-      {/* Show terminal history only after banner is done */}
       {bannerDone &&
         history.map((entry, index) => (
           <div key={index}>
