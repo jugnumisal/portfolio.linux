@@ -1,6 +1,5 @@
-// src/components/history/History.tsx
 import React, { useEffect, useRef, useState } from 'react';
-import { HistoryEntry } from './interface';
+import { HistoryEntry } from './interface'; // <-- make sure this matches your actual type file
 import { banner } from '../../utils/bin/commands';
 
 interface Props {
@@ -10,65 +9,48 @@ interface Props {
 export const History: React.FC<Props> = ({ history }) => {
   const [bannerLines, setBannerLines] = useState<string[]>([]);
   const [bannerDone, setBannerDone] = useState(false);
-  const resizeTimeoutRef = useRef<number | null>(null);
-  const cleanupRef = useRef<() => void | undefined>();
 
-  const runBanner = (width: number) => {
-    setBannerLines([]);
-    setBannerDone(false);
+  const intervalRef = useRef<number | null>(null);
 
-    const full = banner(width);
-    const lines = full.split('\n'); // preserve empty lines for spacing
+  useEffect(() => {
+    const lines = banner(typeof window !== 'undefined' ? window.innerWidth : 1024)
+      .split('\n'); // keep empty lines too
+
     let i = 0;
 
-    const interval = window.setInterval(() => {
+    intervalRef.current = window.setInterval(() => {
       if (i < lines.length) {
         setBannerLines((prev) => [...prev, lines[i]]);
         i++;
       } else {
-        window.clearInterval(interval);
+        if (intervalRef.current) window.clearInterval(intervalRef.current);
         setBannerDone(true);
       }
     }, 40);
 
-    // store cleanup so resize can cancel previous interval
-    cleanupRef.current = () => window.clearInterval(interval);
-  };
-
-  useEffect(() => {
-    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    runBanner(w);
-
-    const onResize = () => {
-      if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
-
-      resizeTimeoutRef.current = window.setTimeout(() => {
-        // cancel previous animation
-        if (cleanupRef.current) cleanupRef.current();
-        runBanner(window.innerWidth);
-      }, 150);
-    };
-
-    window.addEventListener('resize', onResize);
-
     return () => {
-      if (cleanupRef.current) cleanupRef.current();
-      window.removeEventListener('resize', onResize);
-      if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
+      if (intervalRef.current) window.clearInterval(intervalRef.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="font-mono">
-      {/* Render banner as a single <pre> so CSS can scale/wrap it */}
-      <pre className="banner">{bannerLines.join('\n')}</pre>
+      {/* Banner: render as <pre> so ASCII spacing/newlines are preserved */}
+      <pre className="text-light-foreground dark:text-dark-foreground whitespace-pre-wrap break-words m-0">
+        {bannerLines.join('\n')}
+      </pre>
 
+      {/* History: render BOTH command and output as <pre> to preserve formatting */}
       {bannerDone &&
         history.map((entry, index) => (
           <div key={index} className="mt-2">
-            <div className="text-light-yellow dark:text-dark-yellow">{entry.command}</div>
-            <div className="text-light-gray dark:text-dark-gray">{entry.output}</div>
+            <pre className="text-light-yellow dark:text-dark-yellow whitespace-pre-wrap break-words m-0">
+              {entry.command}
+            </pre>
+
+            <pre className="text-light-gray dark:text-dark-gray whitespace-pre-wrap break-words m-0">
+              {entry.output}
+            </pre>
           </div>
         ))}
     </div>

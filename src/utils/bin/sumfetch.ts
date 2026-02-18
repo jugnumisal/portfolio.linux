@@ -1,22 +1,20 @@
 import config from '../../../config.json';
 
 const sumfetch = async (args: string[]): Promise<string> => {
-
-    return `
+  return `
                                                                                                                        
-           ▄▓▓▓▓▓▓▓▓▓▓▓▓▓▓▄                  sumfetch
-        ▄▓▓▀ ▄▓▓▀▓▓▓▀▓▓▄ ▀▀▓▓▄              -----------
-      ▓▓▀  ▄▓▀   ▐▓▓  ▀▓▓    ▓▓▄             ABOUT
-    ▄▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            ${config.name}
-   ▓▓     ▓▓▓    ▐▓▓    ▐▓▓     ▓▓           <u><a href="${config.resume_url}" target="_blank">Resume</a></u>
-▐▓▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▓       爵 <u><a href="${config.certs}" target="_blank">Certifications</a></u>
-▐▓       J U G N U M I S A L       ▐▓       -----------
-▐▓▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▓        CONTACT 
-   ▓▓      ▐▓▓    ▓▓    ▐▓▓     ▓▓           <u><a href="mailto:${config.email}" target="_blank">${config.email}</a></u>
-    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            <u><a href="https://github.com/${config.social.github}" target="_blank">GitHub</a></u>
-      ▓▓▓   ▐▓▓   ▓▓   ▓▓▓   ▓▓▀             <u><a href="https://linkedin.com/in/${config.social.linkedin}" target="_blank">LinkedIn</a></u>
-        ▀▓▓▄▄ ▀▓▓▄▓▓▄▓▓▓▄▄▓▓▀               -----------
-            ▀▓▓▓▓▓▓▓▓▓▓▓▀▀                                                                                                                                                           
+           ▄▓▓▓▓▓▓▓▓▓▓▓▓▓▓▄                  sumfetch
+        ▄▓▓▀  ▄▓▓▀▓▓▓▀▓▓▄  ▀▀▓▓▄              -----------
+      ▓▓▀  ▄▓▀    ▐▓▓    ▀▓▓    ▓▓▄             ABOUT
+    ▄▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓            ${config.name}
+   ▓▓     ▓▓▓    ▐▓▓    ▐▓▓     ▓▓             Resume: ${config.resume_url}
+▐▓▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▓       爵 Certs : ${config.certs}
+▐▓        J U G N U M I S A L          ▐▓       -----------
+▐▓▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▓        CONTACT
+   ▓▓      ▐▓▓    ▓▓    ▐▓▓     ▓▓               Email : ${config.email}
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓               GitHub: https://github.com/${config.social.github}
+      ▓▓▓    ▐▓▓    ▓▓    ▓▓▓    ▓▓▀             LinkedIn: https://linkedin.com/in/${config.social.linkedin}
+
 `;
 };
 
