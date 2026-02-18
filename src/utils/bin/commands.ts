@@ -252,7 +252,6 @@ export const sudo = async (args?: string[]): Promise<string> => {
 };
 
 // src/utils/bin/commands.ts
-import config from '../../../config.json';
 
 /**
  * Responsive banner generator.
