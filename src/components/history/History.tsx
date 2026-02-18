@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { HistoryEntry } from './interface';
 import { banner } from '../../utils/bin/commands';
 
@@ -9,22 +9,50 @@ interface Props {
 export const History: React.FC<Props> = ({ history }) => {
   const [bannerLines, setBannerLines] = useState<string[]>([]);
   const [bannerDone, setBannerDone] = useState(false);
+  const resizeTimeoutRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    const lines = banner().split('\n').filter((line) => line.trim() !== '');
+  const runBanner = (width: number) => {
+    setBannerLines([]);
+    setBannerDone(false);
+
+    const lines = banner(width).split('\n').filter((line) => line.trim() !== '');
     let i = 0;
 
-    const interval = setInterval(() => {
+    const interval = window.setInterval(() => {
       if (i < lines.length) {
         setBannerLines((prev) => [...prev, lines[i]]);
         i++;
       } else {
-        clearInterval(interval);
+        window.clearInterval(interval);
         setBannerDone(true);
       }
     }, 80);
 
-    return () => clearInterval(interval);
+    return () => window.clearInterval(interval);
+  };
+
+  useEffect(() => {
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    let cleanup = runBanner(w);
+
+    const onResize = () => {
+      // debounce resize/orientation changes
+      if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
+
+      resizeTimeoutRef.current = window.setTimeout(() => {
+        cleanup?.();
+        cleanup = runBanner(window.innerWidth);
+      }, 150);
+    };
+
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      cleanup?.();
+      window.removeEventListener('resize', onResize);
+      if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -251,8 +251,25 @@ export const sudo = async (args?: string[]): Promise<string> => {
   return `Permission denied: with little power comes... no responsibility?🤨 `;
 };
 
-// Banner
-export const banner = (args?: string[]): string => {
+// Banner (responsive)
+export const banner = (width?: number): string => {
+  const w = typeof width === 'number' ? width : 1024;
+  const isMobile = w < 640;
+
+  if (isMobile) {
+    return `
+
+┌──────────────────────────────┐
+│          ${config.name}          │
+└──────────────────────────────┘
+
+Hello, I’m ${config.name}, your friendly neighborhood Systems Engineer.
+Type 'help' to see the list of available commands.
+Type 'sumfetch' to display summary.
+`;
+  }
+
+  // Desktop banner (original)
   return `
   
                  _____                                                                                         _____ 
