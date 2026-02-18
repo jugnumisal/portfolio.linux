@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { HistoryEntry } from './interface'; // <-- make sure this matches your actual type file
+import { HistoryEntry } from './interface';
 import { banner } from '../../utils/bin/commands';
 
 interface Props {
   history: HistoryEntry[];
 }
 
+const looksLikeHtml = (s: string) => /<\s*(a|u|span|div|br|p|strong|em)\b/i.test(s);
+
 export const History: React.FC<Props> = ({ history }) => {
   const [bannerLines, setBannerLines] = useState<string[]>([]);
   const [bannerDone, setBannerDone] = useState(false);
-
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const lines = banner(typeof window !== 'undefined' ? window.innerWidth : 1024)
-      .split('\n'); // keep empty lines too
-
+    const lines = banner(typeof window !== 'undefined' ? window.innerWidth : 1024).split('\n');
     let i = 0;
 
     intervalRef.current = window.setInterval(() => {
@@ -35,12 +34,10 @@ export const History: React.FC<Props> = ({ history }) => {
 
   return (
     <div className="font-mono">
-      {/* Banner: render as <pre> so ASCII spacing/newlines are preserved */}
-      <pre className="text-light-foreground dark:text-dark-foreground whitespace-pre-wrap break-words m-0">
-        {bannerLines.join('\n')}
-      </pre>
+      {/* Banner */}
+      <pre className="banner m-0">{bannerLines.join('\n')}</pre>
 
-      {/* History: render BOTH command and output as <pre> to preserve formatting */}
+      {/* History */}
       {bannerDone &&
         history.map((entry, index) => (
           <div key={index} className="mt-2">
@@ -48,9 +45,16 @@ export const History: React.FC<Props> = ({ history }) => {
               {entry.command}
             </pre>
 
-            <pre className="text-light-gray dark:text-dark-gray whitespace-pre-wrap break-words m-0">
-              {entry.output}
-            </pre>
+            {looksLikeHtml(entry.output) ? (
+              <div
+                className="terminal-output text-light-gray dark:text-dark-gray"
+                dangerouslySetInnerHTML={{ __html: entry.output }}
+              />
+            ) : (
+              <pre className="terminal-output text-light-gray dark:text-dark-gray m-0">
+                {entry.output}
+              </pre>
+            )}
           </div>
         ))}
     </div>

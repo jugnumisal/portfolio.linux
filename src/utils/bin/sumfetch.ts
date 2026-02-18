@@ -3,6 +3,7 @@ import config from '../../../config.json';
 const sumfetch = async (args: string[]): Promise<string> => {
 
     return `
+    <div class="sumfetch-output">
                                                                                                                        
            ▄▓▓▓▓▓▓▓▓▓▓▓▓▓▓▄                  sumfetch
         ▄▓▓▀ ▄▓▓▀▓▓▓▀▓▓▄ ▀▀▓▓▄              -----------
@@ -17,7 +18,7 @@ const sumfetch = async (args: string[]): Promise<string> => {
       ▓▓▓   ▐▓▓   ▓▓   ▓▓▓   ▓▓▀             <u><a href="https://linkedin.com/in/${config.social.linkedin}" target="_blank">LinkedIn</a></u>
         ▀▓▓▄▄ ▀▓▓▄▓▓▄▓▓▓▄▄▓▓▀               -----------
             ▀▓▓▓▓▓▓▓▓▓▓▓▀▀                                                                                                                                                           
-`;
+</div>`;
 };
 
 export default sumfetch;

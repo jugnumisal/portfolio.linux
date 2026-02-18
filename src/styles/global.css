@@ -203,3 +203,40 @@ html, body, #__next, div#__next > div {
     font-size: clamp(11px, 2.2vw, 14px);
   }
 }
+
+/* Output blocks: preserve newlines/spaces */
+.terminal-output {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Banner (if you’re using .banner from earlier) */
+.banner {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/*
+  sumfetch should NOT wrap (wrapping breaks ASCII).
+  Instead: scale font slightly + allow horizontal scroll INSIDE the output.
+*/
+.sumfetch-output {
+  display: block;
+  white-space: pre;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  font-size: clamp(10px, 1.1vw + 0.2px, 14px);
+  line-height: 1.1;
+  padding-bottom: 6px; /* keeps scrollbar from overlapping text */
+}
+
+/* Keep links styled like terminal text */
+.sumfetch-output a {
+  color: inherit;
+  text-decoration: underline;
+}
+
