@@ -1,3 +1,4 @@
+// src/components/history/History.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import { HistoryEntry } from './interface';
 import { banner } from '../../utils/bin/commands';
@@ -10,12 +11,14 @@ export const History: React.FC<Props> = ({ history }) => {
   const [bannerLines, setBannerLines] = useState<string[]>([]);
   const [bannerDone, setBannerDone] = useState(false);
   const resizeTimeoutRef = useRef<number | null>(null);
+  const cleanupRef = useRef<() => void | undefined>();
 
   const runBanner = (width: number) => {
     setBannerLines([]);
     setBannerDone(false);
 
-    const lines = banner(width).split('\n').filter((line) => line.trim() !== '');
+    const full = banner(width);
+    const lines = full.split('\n'); // preserve empty lines for spacing
     let i = 0;
 
     const interval = window.setInterval(() => {
@@ -26,29 +29,30 @@ export const History: React.FC<Props> = ({ history }) => {
         window.clearInterval(interval);
         setBannerDone(true);
       }
-    }, 80);
+    }, 40);
 
-    return () => window.clearInterval(interval);
+    // store cleanup so resize can cancel previous interval
+    cleanupRef.current = () => window.clearInterval(interval);
   };
 
   useEffect(() => {
     const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    let cleanup = runBanner(w);
+    runBanner(w);
 
     const onResize = () => {
-      // debounce resize/orientation changes
       if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
 
       resizeTimeoutRef.current = window.setTimeout(() => {
-        cleanup?.();
-        cleanup = runBanner(window.innerWidth);
+        // cancel previous animation
+        if (cleanupRef.current) cleanupRef.current();
+        runBanner(window.innerWidth);
       }, 150);
     };
 
     window.addEventListener('resize', onResize);
 
     return () => {
-      cleanup?.();
+      if (cleanupRef.current) cleanupRef.current();
       window.removeEventListener('resize', onResize);
       if (resizeTimeoutRef.current) window.clearTimeout(resizeTimeoutRef.current);
     };
@@ -56,16 +60,13 @@ export const History: React.FC<Props> = ({ history }) => {
   }, []);
 
   return (
-    <div className="whitespace-pre-wrap font-mono">
-      {bannerLines.map((line, idx) => (
-        <div key={`banner-${idx}`} className="text-light-foreground dark:text-dark-foreground">
-          {line}
-        </div>
-      ))}
+    <div className="font-mono">
+      {/* Render banner as a single <pre> so CSS can scale/wrap it */}
+      <pre className="banner">{bannerLines.join('\n')}</pre>
 
       {bannerDone &&
         history.map((entry, index) => (
-          <div key={index}>
+          <div key={index} className="mt-2">
             <div className="text-light-yellow dark:text-dark-yellow">{entry.command}</div>
             <div className="text-light-gray dark:text-dark-gray">{entry.output}</div>
           </div>

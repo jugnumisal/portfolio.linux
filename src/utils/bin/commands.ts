@@ -251,25 +251,43 @@ export const sudo = async (args?: string[]): Promise<string> => {
   return `Permission denied: with little power comes... no responsibility?🤨 `;
 };
 
-// Banner (responsive)
+// src/utils/bin/commands.ts
+import config from '../../../config.json';
+
+/**
+ * Responsive banner generator.
+ * width = window.innerWidth (optional). Returns a full banner string.
+ */
 export const banner = (width?: number): string => {
   const w = typeof width === 'number' ? width : 1024;
-  const isMobile = w < 640;
 
-  if (isMobile) {
+  // mobile: very small screens
+  if (w < 480) {
     return `
+┌────────────────────────┐
+│     ${config.name}     │
+└────────────────────────┘
 
-┌──────────────────────────────┐
-│          ${config.name}          │
-└──────────────────────────────┘
-
-Hello, I’m ${config.name}, your friendly neighborhood Systems Engineer.
-Type 'help' to see the list of available commands.
+Hello, I’m ${config.name}.
+Type 'help' to see available commands.
 Type 'sumfetch' to display summary.
 `;
   }
 
-  // Desktop banner (original)
+  // tablet: medium screens (phones in landscape, small tablets)
+  if (w >= 480 && w < 1024) {
+    return `
+┌────────────────────────────────────────────┐
+│               ${config.name}               │
+└────────────────────────────────────────────┘
+
+Hello, I’m ${config.name}, your friendly neighborhood Systems Engineer.
+I automate and tidy up infra so things "just work".
+Type 'help' for commands or 'sumfetch' for links.
+`;
+  }
+
+  // desktop: full ASCII art (original / large banner)
   return `
   
                  _____                                                                                         _____ 
@@ -286,11 +304,8 @@ Type 'sumfetch' to display summary.
 
 
 Hello, I’m ${config.name}, your friendly neighborhood Systems Engineer.
-I specialize in turning tech headaches into smooth operations with a mix of automation and some strategic coding wizardry. My goal? To make sure your systems are running so well, you forget they're even there. Whether I’m wrangling servers or optimizing processes, I’m here to keep the digital gears turning—so you never have to wonder why things “just work.”
-
-Oh, and if you’re just here to grab my resume but have no clue about Linux or terminals—don’t worry! Type 'resume', and you’ll be whisked right to it. Want more links or to connect? Just type 'sumfetch' and let's connect!
-                                                                                       
-Type 'help' to see the list of available commands.
-Type 'sumfetch' to display summary.
+I specialize in turning tech headaches into smooth operations with a mix
+of automation and some strategic coding wizardry. Type 'help' to see
+the list of available commands, or 'sumfetch' to display summary.
 `;
 };

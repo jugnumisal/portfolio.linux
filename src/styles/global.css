@@ -140,3 +140,66 @@ div#__next > div {
     word-break: break-word;
   }
 }
+
+
+/* -------------------------
+   Responsive banner styling
+   ------------------------- */
+
+/* general banner container (preformatted) */
+.banner {
+  display: block;
+  font-family: 'Hack', monospace;
+  /* fluid font-size: clamps between 12px and 18px depending on width */
+  font-size: clamp(12px, 1.4vw + 0.5px, 16px);
+  line-height: 1.12;
+  margin: 0;
+  padding: 0 0.25rem; /* small inner padding so edges don't touch */
+  color: inherit;
+  background: transparent;
+  white-space: pre-wrap;          /* allow wrapping on small/medium screens */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: calc(100% - 2.5rem);
+}
+
+/* on large desktop keep original pre formatting (no wrapping) */
+@media (min-width: 1024px) {
+  .banner {
+    white-space: pre;            /* preserve original ascii layout */
+    font-size: 16px;
+    max-width: none;
+    padding-left: 0;
+  }
+}
+
+/* optionally center the banner block and limit width on tablet */
+@media (min-width: 480px) and (max-width: 1023px) {
+  .banner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 720px; /* a comfortable width for tablet */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* ensure the terminal area does not cause page-level horizontal scroll */
+html, body, #__next, div#__next > div {
+  overflow-x: hidden;
+}
+
+/* allow the terminal inner scroll area to scroll horizontally if user wants */
+.terminal-inner, /* your existing terminal scroll container class; adjust if different */
+.terminal-scroller {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* tweak monospace spacing on smaller screens so ascii looks better */
+@media (max-width: 600px) {
+  .banner {
+    letter-spacing: 0.4px;
+    font-size: clamp(11px, 2.2vw, 14px);
+  }
+}
