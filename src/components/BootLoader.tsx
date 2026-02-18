@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { banner } from '../utils/bin/commands';
+import React, { useEffect, useState } from 'react';
 
 export interface BootLoaderProps {
   onComplete: () => void;
@@ -17,39 +16,21 @@ const BootLoader: React.FC<BootLoaderProps> = ({ onComplete }) => {
   const [lines, setLines] = useState<string[]>([]);
 
   useEffect(() => {
-    const interval = setTimeout(() => {
+    const t = window.setTimeout(() => {
       if (step < loadingLines.length) {
         setLines((prev) => [...prev, loadingLines[step]]);
-        setStep(step + 1);
+        setStep((s) => s + 1);
       } else {
-        setLines([]);
-        setStep(0);
-        showBanner();
+        // Small pause so the last line is visible, then continue to terminal
+        window.setTimeout(() => onComplete(), 250);
       }
     }, 800);
 
-    return () => clearTimeout(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
-
-  const showBanner = () => {
-    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    const bannerText = banner(w).split('\n').filter((l) => l !== '');
-    let idx = 0;
-
-    const showInterval = setInterval(() => {
-      if (idx < bannerText.length) {
-        setLines((prev) => [...prev, bannerText[idx]]);
-        idx++;
-      } else {
-        clearInterval(showInterval);
-        onComplete();
-      }
-    }, 80);
-  };
+    return () => window.clearTimeout(t);
+  }, [step, onComplete]);
 
   return (
-    <div className="boot-screen font-mono space-y-1">
+    <div className="boot-screen font-mono space-y-1 p-4 sm:p-6 md:p-8">
       {lines.map((ln, i) => (
         <div key={i}>{ln}</div>
       ))}
