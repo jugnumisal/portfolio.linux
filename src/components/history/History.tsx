@@ -10,59 +10,69 @@ const looksLikeHtml = (s: string) => /<\s*(a|u|span|div|br|p|strong|em)\b/i.test
 
 type Breakpoint = 'mobile' | 'tablet' | 'desktop';
 
+/**
+ * IMPORTANT:
+ * - Use the *container width* (not window width) so DevTools resizing and padding/scrollbars
+ *   don't cause banner selection to flip inconsistently.
+ */
 const getBreakpoint = (w: number): Breakpoint => {
-  if (w < 480) return 'mobile';
-  if (w < 1024) return 'tablet';
+  if (w < 520) return 'mobile';
+  if (w < 1100) return 'tablet';
   return 'desktop';
 };
 
 export const History: React.FC<Props> = ({ history }) => {
-  const [width, setWidth] = useState<number>(() => (typeof window !== 'undefined' ? window.innerWidth : 1024));
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Which banner variant should be shown right now?
-  const breakpoint = useMemo(() => getBreakpoint(width), [width]);
+  // Actual width of the terminal content area in pixels
+  const [containerWidth, setContainerWidth] = useState<number>(() => {
+    if (typeof window === 'undefined') return 1024;
+    return Math.max(320, window.innerWidth);
+  });
+
+  const breakpoint = useMemo(() => getBreakpoint(containerWidth), [containerWidth]);
 
   const [bannerLines, setBannerLines] = useState<string[]>([]);
   const intervalRef = useRef<number | null>(null);
   const runIdRef = useRef(0);
 
-  // Track window resize so banner can respond to viewport changes (mobile ⇄ desktop)
+  // Measure the true container width and react to *any* resize (including DevTools responsive mode)
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!containerRef.current) return;
 
-    let raf = 0;
+    const el = containerRef.current;
 
-    const onResize = () => {
-      // Use rAF to avoid spamming state updates during continuous resizing
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        setWidth(window.innerWidth);
-      });
+    const update = () => {
+      // clientWidth excludes scrollbars; this is what we want for layout decisions
+      const w = Math.max(320, el.clientWidth);
+      setContainerWidth(w);
     };
 
-    window.addEventListener('resize', onResize, { passive: true });
-    return () => {
-      window.removeEventListener('resize', onResize);
-      if (raf) cancelAnimationFrame(raf);
-    };
+    update();
+
+    const ro = new ResizeObserver(() => update());
+    ro.observe(el);
+
+    return () => ro.disconnect();
   }, []);
 
-  // Re-type the banner only when crossing breakpoints (mobile/tablet/desktop)
+  // Type banner when breakpoint changes (mobile/tablet/desktop),
+  // and always generate from containerWidth to avoid 1024px glitches.
   useEffect(() => {
-    // Cancel any previous typing
     if (intervalRef.current) window.clearInterval(intervalRef.current);
 
     const currentRunId = ++runIdRef.current;
 
-    const w = typeof window !== 'undefined' ? window.innerWidth : 1024;
-    const lines = banner(w).replace(/\n$/, '').split('\n');
+    // Subtract a little for safe margins/padding so we don't pick an overly-wide banner.
+    // This is the key to fixing the "break at 1024" behavior.
+    const safeWidth = Math.max(320, Math.floor(containerWidth - 24));
 
-    // Reset and type again for the new breakpoint
+    const lines = banner(safeWidth).replace(/\n$/, '').split('\n');
+
     setBannerLines([]);
     let i = 0;
 
     intervalRef.current = window.setInterval(() => {
-      // If a newer run started, stop this one
       if (runIdRef.current !== currentRunId) {
         if (intervalRef.current) window.clearInterval(intervalRef.current);
         return;
@@ -79,12 +89,16 @@ export const History: React.FC<Props> = ({ history }) => {
     return () => {
       if (intervalRef.current) window.clearInterval(intervalRef.current);
     };
-  }, [breakpoint]);
+  }, [breakpoint, containerWidth]);
 
   return (
-    <div className="font-mono min-w-0">
-      {/* Banner: keep formatting stable + allow horizontal scroll on small screens */}
-      <pre className="banner m-0 whitespace-pre overflow-x-auto max-w-full">
+    <div ref={containerRef} className="font-mono min-w-0">
+      {/* Banner: preserve spacing + allow horizontal scroll on small screens */}
+      <pre
+        className="banner m-0 whitespace-pre overflow-x-auto max-w-full font-mono [font-variant-ligatures:none]"
+        // Helps some browsers avoid weird font fallback/ligature rendering in DevTools
+        style={{ fontVariantLigatures: 'none' }}
+      >
         {bannerLines.join('\n')}
       </pre>
 

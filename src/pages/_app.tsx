@@ -6,7 +6,8 @@ const App = ({ Component, pageProps }) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickAnywhere = () => {
-    inputRef.current.focus();
+    // ✅ Prevent crash when ref isn't attached yet or on pages without terminal input
+    inputRef.current?.focus();
   };
 
   return (
@@ -24,6 +25,7 @@ const App = ({ Component, pageProps }) => {
         onClick={onClickAnywhere}
       >
         <main className="bg-light-background dark:bg-dark-background w-full h-full p-2">
+          {/* ✅ Pass the SAME ref to the page so it can attach it to the real input */}
           <Component {...pageProps} inputRef={inputRef} />
         </main>
       </div>

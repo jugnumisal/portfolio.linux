@@ -6,12 +6,24 @@ import { useHistory } from '../components/history/hook';
 import { History } from '../components/history/History';
 import BootLoader from '../components/BootLoader';
 
-const IndexPage: React.FC = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+type Props = {
+  inputRef?: React.RefObject<HTMLInputElement>;
+};
+
+const IndexPage: React.FC<Props> = ({ inputRef: appInputRef }) => {
+  // ✅ Use the ref passed from _app so "click anywhere to focus" works
+  // Fallback to a local ref if not provided (safety)
+  const inputRef = appInputRef ?? useRef<HTMLInputElement>(null);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const {
-    history, command, lastCommandIndex,
-    setCommand, setHistory, clearHistory, setLastCommandIndex
+    history,
+    command,
+    lastCommandIndex,
+    setCommand,
+    setHistory,
+    clearHistory,
+    setLastCommandIndex,
   } = useHistory([]);
 
   const [bootComplete, setBootComplete] = useState(false);
@@ -22,7 +34,9 @@ const IndexPage: React.FC = () => {
 
   return (
     <>
-      <Head><title>{config.title}</title></Head>
+      <Head>
+        <title>{config.title}</title>
+      </Head>
 
       <div className="p-4 sm:p-6 md:p-8 overflow-hidden h-full w-full min-w-0 border-2 rounded border-light-yellow dark:border-dark-yellow">
         <div ref={containerRef} className="overflow-y-auto overflow-x-hidden h-full min-w-0">
