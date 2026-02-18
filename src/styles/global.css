@@ -18,7 +18,8 @@ body > div:first-child,
 div#__next,
 div#__next > div {
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden; /* prevent page-level horizontal scroll on mobile */
 }
 
 ::-webkit-scrollbar {
@@ -39,12 +40,13 @@ div#__next > div {
 ::-webkit-scrollbar-thumb:hover {
   background: #ff8037;
 }
+
 .terminal-line {
   display: flex;
   align-items: center;
   font-family: monospace;
   color: #198844;
-  white-space: pre;
+  white-space: pre; /* keep terminal feel on desktop */
 }
 
 .prompt {
@@ -53,7 +55,7 @@ div#__next > div {
 
 .typed-text {
   display: inline;
-  white-space: pre;
+  white-space: pre; /* keep terminal feel on desktop */
   font-family: 'Fira Code', monospace;
   font-size: 1rem;
   line-height: 1;
@@ -67,16 +69,6 @@ div#__next > div {
   background-color: #198844;
   animation: blink 1s steps(2, start) infinite;
   vertical-align: text-bottom;
-}
-
-
-@keyframes typewriter-cursor {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
 }
 
 .terminal-hidden-input {
@@ -93,10 +85,13 @@ div#__next > div {
 }
 
 @keyframes blink {
-  0%, 50%, 100% {
+  0%,
+  50%,
+  100% {
     opacity: 1;
   }
-  25%, 75% {
+  25%,
+  75% {
     opacity: 0;
   }
 }
@@ -108,7 +103,7 @@ div#__next > div {
 .boot-screen {
   background: inherit; /* respect config.json theme */
   color: inherit;
-  height: 100vh;
+  min-height: 100dvh; /* mobile-safe viewport height */
   font-size: 0.9rem;
   padding: 2rem;
   white-space: pre-wrap;
@@ -126,19 +121,22 @@ div#__next > div {
   color: #198844;
 }
 
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer utilities {
-  .animate-blink {
-    animation: blink 1s step-start infinite;
+/* Mobile responsiveness: wrap long commands so they don't force horizontal scrolling */
+@media (max-width: 640px) {
+  .terminal-line {
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
 
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+  .prompt,
+  .typed-text {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .typed-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
