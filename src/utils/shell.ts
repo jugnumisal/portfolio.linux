@@ -13,51 +13,53 @@ const saveCommandHistory = (history: string[]) => {
 
 export const shell = async (
   command: string,
-  setHistory: (value: string) => void,
+  appendHistory: (cmd: string, output: string) => void,
   clearHistory: () => void,
   setCommand: React.Dispatch<React.SetStateAction<string>>,
 ) => {
+  const raw = command;
   const args = command.split(' ');
   args[0] = args[0].toLowerCase();
 
   // Handle the 'clear' command
   if (args[0] === 'clear') {
     clearHistory();
+    setCommand('');
+    return;
   }
+
   // Handle the 'history' command
-  else if (args[0] === 'history') {
+  if (args[0] === 'history') {
     const history = getCommandHistory();
-    if (history.length === 0) {
-      setHistory('No commands entered yet.');
-    } else {
-      setHistory(history.join('\n'));
-    }
-  } 
-  // Handle invalid commands
-  else if (command === '') {
-    setHistory('');
-  } else if (Object.keys(bin).indexOf(args[0]) === -1) {
-    setHistory(`shell: command not found: ${args[0]}. Try 'help' to get started.`);
-  } 
-  // Handle valid commands
-  else {
-    const output = await bin[args[0]](args.slice(1));
-
-    // Save the command to history
-    const currentHistory = getCommandHistory();
-    currentHistory.push(command);
-
-    // Limit the history to the last 10 commands
-    if (currentHistory.length > 10) {
-      currentHistory.shift(); // Remove the oldest command if history exceeds 10
-    }
-
-    // Update the history in localStorage
-    saveCommandHistory(currentHistory);
-
-    setHistory(output);
+    const out = history.length === 0 ? 'No commands entered yet.' : history.join('\n');
+    appendHistory(raw, out);
+    setCommand('');
+    return;
   }
 
-  // Clear the command input field
+  // Handle empty command
+  if (raw.trim() === '') {
+    appendHistory('', '');
+    setCommand('');
+    return;
+  }
+
+  // Handle invalid commands
+  if (Object.keys(bin).indexOf(args[0]) === -1) {
+    appendHistory(raw, `shell: command not found: ${args[0]}. Try 'help' to get started.`);
+    setCommand('');
+    return;
+  }
+
+  // Handle valid commands
+  const output = await bin[args[0]](args.slice(1));
+
+  // Save the command to history (last 10)
+  const currentHistory = getCommandHistory();
+  currentHistory.push(raw);
+  if (currentHistory.length > 10) currentHistory.shift();
+  saveCommandHistory(currentHistory);
+
+  appendHistory(raw, output);
   setCommand('');
 };

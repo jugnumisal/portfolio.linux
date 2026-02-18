@@ -11,8 +11,6 @@ type Props = {
 };
 
 const IndexPage: React.FC<Props> = ({ inputRef: appInputRef }) => {
-  // ✅ Use the ref passed from _app so "click anywhere to focus" works
-  // Fallback to a local ref if not provided (safety)
   const inputRef = appInputRef ?? useRef<HTMLInputElement>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -21,7 +19,7 @@ const IndexPage: React.FC<Props> = ({ inputRef: appInputRef }) => {
     command,
     lastCommandIndex,
     setCommand,
-    setHistory,
+    appendHistory,
     clearHistory,
     setLastCommandIndex,
   } = useHistory([]);
@@ -48,7 +46,7 @@ const IndexPage: React.FC<Props> = ({ inputRef: appInputRef }) => {
             history={history}
             lastCommandIndex={lastCommandIndex}
             setCommand={setCommand}
-            setHistory={setHistory}
+            appendHistory={appendHistory}
             setLastCommandIndex={setLastCommandIndex}
             clearHistory={clearHistory}
           />

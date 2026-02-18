@@ -10,11 +10,12 @@ export const Input = ({
   history,
   lastCommandIndex,
   setCommand,
-  setHistory,
+  appendHistory,
   setLastCommandIndex,
   clearHistory,
 }) => {
   const localRef = useRef<HTMLInputElement>(null);
+  const runningRef = useRef(false);
 
   useEffect(() => {
     localRef.current?.focus();
@@ -29,7 +30,7 @@ export const Input = ({
     if (event.key === 'c' && event.ctrlKey) {
       event.preventDefault();
       setCommand('');
-      setHistory('');
+      clearHistory();
       setLastCommandIndex(0);
       return;
     }
@@ -51,15 +52,20 @@ export const Input = ({
     // Enter
     if (event.key === 'Enter' || event.code === '13') {
       event.preventDefault();
+
+      if (runningRef.current) return;
+      runningRef.current = true;
+
       setLastCommandIndex(0);
 
-      await shell(command, setHistory, clearHistory, setCommand);
+      const enteredCommand = command; // capture exact command string
+      await shell(enteredCommand, appendHistory, clearHistory, setCommand);
 
-      // Scroll after DOM updates (helps prevent weird scroll behavior)
       requestAnimationFrame(() => {
         containerRef?.current?.scrollTo(0, containerRef.current.scrollHeight);
       });
 
+      runningRef.current = false;
       return;
     }
 
@@ -104,7 +110,6 @@ export const Input = ({
 
       <span className="typed-text">
         {command}
-        {/* Cursor is CSS-driven; don't render booleans */}
         <span className="typewriter-cursor" aria-hidden="true" />
       </span>
 

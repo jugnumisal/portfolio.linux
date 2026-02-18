@@ -6,22 +6,29 @@ export const useHistory = (defaultValue: Array<History>) => {
   const [command, setCommand] = React.useState<string>('');
   const [lastCommandIndex, setLastCommandIndex] = React.useState<number>(0);
 
+  const appendHistory = React.useCallback((cmd: string, output: string) => {
+    setHistory((prev) => [
+      ...prev,
+      {
+        id: prev.length,
+        date: new Date(),
+        command: cmd,
+        output,
+      },
+    ]);
+  }, []);
+
+  const clearHistory = React.useCallback(() => {
+    setHistory([]);
+  }, []);
+
   return {
     history,
     command,
     lastCommandIndex,
-    setHistory: (value: string) =>
-      setHistory([
-        ...history,
-        {
-          id: history.length,
-          date: new Date(),
-          command,
-          output: value,
-        },
-      ]),
+    appendHistory,
     setCommand,
     setLastCommandIndex,
-    clearHistory: () => setHistory([]),
+    clearHistory,
   };
 };
